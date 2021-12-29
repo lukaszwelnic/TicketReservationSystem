@@ -2,6 +2,7 @@ version: '3'
 services:
   cassandra1:
     build: .
+    user: root
     ports:
       - "7000:7000"
       - "9042:9042"
@@ -16,6 +17,7 @@ services:
       - HEAP_NEWSIZE=200M
   cassandra2:
     build: .
+    user: root
     ports:
       - "7001:7000"
       - "9043:9042"
@@ -25,6 +27,7 @@ services:
       *environment
   cassandra3:
     build: .
+    user: root
     ports:
       - "7002:7000"
       - "9044:9042"
@@ -34,6 +37,7 @@ services:
       *environment
   cassandra4:
     build: .
+    user: root
     ports:
       - "7003:7000"
       - "9045:9042"
