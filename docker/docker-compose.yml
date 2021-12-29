@@ -1,0 +1,65 @@
+version: '3'
+services:
+  cassandra1:
+    build: .
+    ports:
+      - 7000:7000
+      - 9042:9042
+    volumes:
+      - cassandra_data:/bitnami
+    environment:
+      - CASSANDRA_SEEDS=cassandra,cassandra2
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_PASSWORD_SEEDER=yes
+      - CASSANDRA_PASSWORD=cassandra
+      - MAX_HEAP_SIZE=512M
+      - HEAP_NEWSIZE=200M
+  cassandra2:
+    build: .
+    ports:
+      - 7001:7000
+      - 9043:9042
+    volumes:
+      - cassandra2_data:/bitnami
+    environment:
+      - CASSANDRA_SEEDS=cassandra,cassandra2
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_PASSWORD=cassandra
+      - MAX_HEAP_SIZE=512M
+      - HEAP_NEWSIZE=200M
+  cassandra3:
+    build: .
+    ports:
+      - 7002:7000
+      - 9044:9042
+    volumes:
+      - cassandra3_data:/bitnami
+    environment:
+      - CASSANDRA_SEEDS=cassandra,cassandra2
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_PASSWORD=cassandra
+      - MAX_HEAP_SIZE=512M
+      - HEAP_NEWSIZE=200M
+  cassandra4:
+    build: .
+    ports:
+      - 7003:7000
+      - 9045:9042
+    volumes:
+      - cassandra4_data:/bitnami
+    environment:
+      - CASSANDRA_SEEDS=cassandra,cassandra2
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_PASSWORD=cassandra
+      - MAX_HEAP_SIZE=512M
+      - HEAP_NEWSIZE=200M
+
+volumes:
+  cassandra_data:
+    driver: local
+  cassandra2_data:
+    driver: local
+  cassandra3_data:
+    driver: local
+  cassandra4_data:
+    driver: local
