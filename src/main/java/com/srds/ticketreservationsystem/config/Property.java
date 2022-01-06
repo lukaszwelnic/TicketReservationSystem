@@ -15,10 +15,10 @@ public class Property {
 
     private static void load() {
 
-        if (properties != null) {
+        if (properties == null) {
             try {
                 properties = new Properties();
-                properties.load(Property.class.getClassLoader().getResourceAsStream("com.srds.ticketreservationsystem.config.properties"));
+                properties.load(Property.class.getClassLoader().getResourceAsStream("config.properties"));
             } catch (IOException exception) {
                 throw new PropertyDoesNotExistsException(exception);
             }

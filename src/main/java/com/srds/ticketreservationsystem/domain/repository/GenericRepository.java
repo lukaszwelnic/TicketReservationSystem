@@ -23,7 +23,7 @@ public abstract class GenericRepository<T> {
         session = connector.getSession();
     }
 
-    protected List<T> fetchAll() {
+    public List<T> fetchAll() {
         BoundStatement boundStatement = new BoundStatement(session.prepare(FETCH_ALL));
         ResultSet resultSet;
         try {
@@ -31,7 +31,8 @@ public abstract class GenericRepository<T> {
         } catch (Exception exception) {
             throw new CannotExecuteStatementException(FETCH_ALL, exception);
         }
-        return resultSet.all()
+        List<Row> rows = resultSet.all();
+        return rows
                 .stream()
                 .map(this::decodeModel)
                 .collect(Collectors.toList());

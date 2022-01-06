@@ -8,7 +8,7 @@ public class ReservationRepository extends GenericRepository<Reservation> {
 
     public ReservationRepository(CassandraConnector connector) {
         super(connector);
-        FETCH_ALL = "SELECT * FROM RESERVATIONS;";
+        FETCH_ALL = "SELECT * FROM RESERVATION;";
     }
 
     @Override
