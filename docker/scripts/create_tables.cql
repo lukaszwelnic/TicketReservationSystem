@@ -9,3 +9,8 @@ CREATE TABLE tickets.test(
     column2 text,
     column3 text
 );
+
+CREATE TABLE tickets.reservation(
+    id int PRIMARY KEY,
+    name text
+);
