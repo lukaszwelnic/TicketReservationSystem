@@ -38,6 +38,8 @@ public abstract class GenericRepository<T> {
                 .collect(Collectors.toList());
     }
 
+    //select, insert, delete, (optional) update
+
     protected T decodeModel(Row row) {
         return null;
     }
