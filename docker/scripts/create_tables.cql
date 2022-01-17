@@ -5,36 +5,36 @@ CREATE KEYSPACE tickets
   };
 
 CREATE TABLE tickets.reservation(
-    id int PRIMARY KEY,
+    client_nick text,
     movie_name text,
-    reservation_date date,
-    reservation_time time,
+    reservation_date timestamp,
     row int,
     seat int,
-    cinema_id int,
+    cinema_name text,
     theater_id int,
-    client_nick text,
     price float,
-    created_at timestamp
+    created_at timestamp,
+    PRIMARY KEY ( client_nick, movie_name )
 );
 
 CREATE TABLE tickets.movie(
-    id int PRIMARY KEY,
-    name text,
-    cinema_id int,
+    cinema_name text,
+    movie_name text,
     theater_id int,
-    date date,
-    time time
+    date timestamp,
+    PRIMARY KEY ( cinema_name, movie_name )
 );
 
 CREATE TABLE tickets.cinema(
-    id int PRIMARY KEY,
     cinema_name text,
-    number_of_theaters int
+    number_of_theaters int,
+    PRIMARY KEY ( cinema_name )
 );
 
 CREATE TABLE tickets.theater(
-    id int PRIMARY KEY,
+    cinema_name text,
+    theater_id int,
     number_of_rows int,
     number_of_seats int,
+    PRIMARY KEY ( cinema_name, theater_id )
 );
