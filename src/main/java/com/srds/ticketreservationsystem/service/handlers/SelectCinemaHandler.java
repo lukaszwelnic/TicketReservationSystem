@@ -3,7 +3,6 @@ package com.srds.ticketreservationsystem.service.handlers;
 import com.srds.ticketreservationsystem.domain.model.Cinema;
 import com.srds.ticketreservationsystem.domain.repository.CinemaRepository;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.stream.Collectors;
