@@ -1,11 +1,13 @@
 package com.srds.ticketreservationsystem.domain.model;
 
 import com.datastax.driver.core.Row;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
+@AllArgsConstructor
 public class Theater {
     private String cinemaName;
     private Integer theaterId;

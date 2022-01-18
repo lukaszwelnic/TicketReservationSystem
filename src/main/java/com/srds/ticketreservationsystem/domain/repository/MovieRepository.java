@@ -7,6 +7,8 @@ import com.srds.ticketreservationsystem.domain.model.Movie;
 import java.util.List;
 
 public class MovieRepository extends GenericRepository<Movie> {
+    @Setter
+    private static MovieRepository instance;
 
     public MovieRepository(CassandraConnector connector) {
         super(connector);
@@ -39,5 +41,12 @@ public class MovieRepository extends GenericRepository<Movie> {
     @Override
     protected Movie decodeModel(Row row) {
         return new Movie(row);
+    }
+
+    public static MovieRepository getInstance() {
+        if (instance == null) {
+            throw new RepositoryNotInitializedException();
+        }
+        return instance;
     }
 }

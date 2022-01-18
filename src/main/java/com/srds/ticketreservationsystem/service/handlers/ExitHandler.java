@@ -4,9 +4,7 @@ public class ExitHandler extends BaseUIHandler {
     private static ExitHandler instance;
 
     @Override
-    public void handle() {
-        System.exit(0);
-    }
+    public void handle() { }
 
     public static ExitHandler newInstance() {
         if (instance == null) {

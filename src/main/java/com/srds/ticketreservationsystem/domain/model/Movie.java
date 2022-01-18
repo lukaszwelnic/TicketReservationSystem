@@ -1,12 +1,15 @@
 package com.srds.ticketreservationsystem.domain.model;
 
 import com.datastax.driver.core.Row;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.Date;
 
 @Setter
 @Getter
+@AllArgsConstructor
 public class Movie {
     private String cinemaName;
     private String movieName;
@@ -19,4 +22,5 @@ public class Movie {
         theaterId = row.getInt("theater_id");
         date = row.getTimestamp("date");
     }
+<<<<<<< HEAD
 }

@@ -8,6 +8,8 @@ import com.srds.ticketreservationsystem.domain.model.Theater;
 import java.util.List;
 
 public class TheaterRepository extends GenericRepository<Theater> {
+    @Setter
+    private static TheaterRepository instance;
 
     public TheaterRepository(CassandraConnector connector) {
         super(connector);
@@ -41,5 +43,12 @@ public class TheaterRepository extends GenericRepository<Theater> {
     @Override
     protected Theater decodeModel(Row row) {
         return new Theater(row);
+    }
+
+    public static TheaterRepository getInstance() {
+        if (instance == null) {
+            throw new RepositoryNotInitializedException();
+        }
+        return instance;
     }
 }
