@@ -6,6 +6,8 @@ public class ReservationShowerHandler extends BaseUIHandler {
     @Override
     public void handle() {
         System.out.println("Rezerwacje: ..."); // TODO
+        LogInHandler.newInstance().getLogin();
+
         setNext(MainMenuHandler.newInstance());
         super.handle();
     }

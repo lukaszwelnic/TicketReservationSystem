@@ -3,8 +3,13 @@ package com.srds.ticketreservationsystem.domain.repository;
 import com.datastax.driver.core.Row;
 import com.srds.ticketreservationsystem.config.CassandraConnector;
 import com.srds.ticketreservationsystem.domain.model.Theater;
+import com.srds.ticketreservationsystem.exception.RepositoryNotInitializedException;
+import lombok.Setter;
 
 public class TheaterRepository extends GenericRepository<Theater> {
+    @Setter
+    private static TheaterRepository instance;
+
     public TheaterRepository(CassandraConnector connector) {
         super(connector);
         FETCH_ALL = "SELECT * FROM theater;";
@@ -26,5 +31,12 @@ public class TheaterRepository extends GenericRepository<Theater> {
     @Override
     protected Theater decodeModel(Row row) {
         return new Theater(row);
+    }
+
+    public static TheaterRepository getInstance() {
+        if (instance == null) {
+            throw new RepositoryNotInitializedException();
+        }
+        return instance;
     }
 }

@@ -1,7 +1,5 @@
 package com.srds.ticketreservationsystem.service.handlers;
 
-import lombok.Setter;
-
 import java.util.Arrays;
 
 public class ReservationHandler extends BaseUIHandler {
@@ -10,7 +8,7 @@ public class ReservationHandler extends BaseUIHandler {
 
     private ReservationHandler() {
         options = Arrays.asList("Wybierz kino", "Wyjdź");
-        handlers = Arrays.asList(SelectTheaterHandler.newInstance(), ExitHandler.newInstance());
+        handlers = Arrays.asList(SelectCinemaHandler.newInstance(), ExitHandler.newInstance());
     }
 
     @Override

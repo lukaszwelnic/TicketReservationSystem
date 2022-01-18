@@ -2,9 +2,14 @@ package com.srds.ticketreservationsystem.domain.repository;
 
 import com.datastax.driver.core.Row;
 import com.srds.ticketreservationsystem.config.CassandraConnector;
+import com.srds.ticketreservationsystem.domain.model.Cinema;
 import com.srds.ticketreservationsystem.domain.model.ClientReservation;
+import com.srds.ticketreservationsystem.exception.RepositoryNotInitializedException;
+import lombok.Setter;
 
 public class ClientReservationRepository extends GenericRepository<ClientReservation> {
+    @Setter
+    private static ClientReservationRepository instance;
 
     public ClientReservationRepository(CassandraConnector connector) {
         super(connector);
@@ -31,5 +36,12 @@ public class ClientReservationRepository extends GenericRepository<ClientReserva
     @Override
     protected ClientReservation decodeModel(Row row) {
         return new ClientReservation(row);
+    }
+
+    public static ClientReservationRepository getInstance() {
+        if (instance == null) {
+            throw new RepositoryNotInitializedException();
+        }
+        return instance;
     }
 }
