@@ -17,7 +17,7 @@ public class CinemaRepository extends GenericRepository<Cinema> {
         DELETE_ALL = "TRUNCATE CINEMA;";
     }
 
-    public List<Cinema> executeStatement(String cinemaName) {
+    public List<Cinema> select(String cinemaName) {
         SELECT = "SELECT * FROM CINEMA WHERE cinema_name = ?;";
         BoundStatement boundStatement = new BoundStatement(session.prepare(SELECT));
         boundStatement.bind(cinemaName);
