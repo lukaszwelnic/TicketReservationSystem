@@ -21,6 +21,6 @@ Cassandra Setup
 - Connect to a cassandra cluster:
 
       cqlsh -u cassandra -p cassandra
-- Create a database using the shell command
+- Create a database using the shell command:
 
       ./cassandra-init.sh
