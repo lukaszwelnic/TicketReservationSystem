@@ -13,9 +13,9 @@ import java.util.stream.Collectors;
 public abstract class GenericRepository<T> {
 
     protected String FETCH_ALL;
-    protected String SELECT;
     protected String DELETE;
-    protected String UPDATE;
+    protected String DELETE_ALL;
+    protected String UPSERT;
 
     private final Session session;
 
@@ -38,10 +38,32 @@ public abstract class GenericRepository<T> {
                 .collect(Collectors.toList());
     }
 
-    //select, insert, delete, (optional) update
+    public abstract void upsert(T object);
+    public abstract void delete(T object);
 
-    protected T decodeModel(Row row) {
-        return null;
+    public void upsert(Object... values) {
+        BoundStatement boundStatement = new BoundStatement(session.prepare(UPSERT));
+        boundStatement.bind(values);
+        try {
+            session.execute(boundStatement);
+        } catch (Exception exception) {
+            throw new CannotExecuteStatementException(UPSERT, exception);
+        }
     }
+
+    public void delete(Object... values) {
+
+    }
+
+    public void deleteAll() {
+        BoundStatement boundStatement = new BoundStatement(session.prepare(DELETE_ALL));
+        try {
+            session.execute(boundStatement);
+        } catch (Exception exception) {
+            throw new CannotExecuteStatementException(DELETE_ALL, exception);
+        }
+    }
+
+    protected abstract T decodeModel(Row row);
 
 }
