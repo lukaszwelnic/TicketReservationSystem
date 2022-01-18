@@ -5,6 +5,7 @@ import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.srds.ticketreservationsystem.config.CassandraConnector;
+import com.srds.ticketreservationsystem.domain.model.Reservation;
 import com.srds.ticketreservationsystem.exception.CannotExecuteStatementException;
 
 import java.util.List;
