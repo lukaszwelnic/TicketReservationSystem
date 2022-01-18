@@ -52,7 +52,13 @@ public abstract class GenericRepository<T> {
     }
 
     public void delete(Object... values) {
-
+        BoundStatement boundStatement = new BoundStatement(session.prepare(DELETE));
+        boundStatement.bind(values);
+        try {
+            session.execute(boundStatement);
+        } catch (Exception exception) {
+            throw new CannotExecuteStatementException(DELETE, exception);
+        }
     }
 
     public void deleteAll() {
