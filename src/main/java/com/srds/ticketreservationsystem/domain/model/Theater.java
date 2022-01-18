@@ -7,15 +7,15 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Theater {
-    private String cinema_name;
-    private Integer theater_id;
-    private Integer number_of_rows;
-    private Integer number_of_seats;
+    private String cinemaName;
+    private Integer theaterId;
+    private Integer numberOfRows;
+    private Integer numberOfSeats;
 
     public Theater(Row row) {
-        cinema_name = row.getString("cinema_name");
-        theater_id = row.getInt("theater_id");
-        number_of_rows = row.getInt("number_of_rows");
-        number_of_seats = row.getInt("number_of_seats");
+        cinemaName = row.getString("cinema_name");
+        theaterId = row.getInt("theater_id");
+        numberOfRows = row.getInt("number_of_rows");
+        numberOfSeats = row.getInt("number_of_seats");
     }
 }

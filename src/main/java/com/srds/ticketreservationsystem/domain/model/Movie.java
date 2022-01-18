@@ -8,15 +8,15 @@ import java.util.Date;
 @Setter
 @Getter
 public class Movie {
-    private String cinema_name;
-    private String movie_name;
-    private Integer theater_id;
+    private String cinemaName;
+    private String movieName;
+    private Integer theaterId;
     private Date date;
 
     public Movie(Row row) {
-        cinema_name = row.getString("cinema_name");
-        movie_name = row.getString("movie_name");
-        theater_id = row.getInt("theater_id");
+        cinemaName = row.getString("cinema_name");
+        movieName = row.getString("movie_name");
+        theaterId = row.getInt("theater_id");
         date = row.getTimestamp("date");
     }
 }

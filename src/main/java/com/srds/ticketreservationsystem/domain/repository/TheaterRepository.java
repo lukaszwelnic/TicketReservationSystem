@@ -13,13 +13,13 @@ public class TheaterRepository extends GenericRepository<Theater> {
         super(connector);
         FETCH_ALL = "SELECT * FROM THEATER;";
         UPSERT = "UPDATE THEATER SET number_of_rows = ?," +
-                "number_of_seats = ?" +
+                "number_of_seats = ? " +
                 "WHERE cinema_name = ? theater_id = ?;";
         DELETE_ALL = "TRUNCATE THEATER;";
     }
 
     public List<Theater> select(String cinemaName) {
-        SELECT = "SELECT * FROM THEATER WHERE cinema_name = ?";
+        SELECT = "SELECT * FROM THEATER WHERE cinema_name = ?;";
         BoundStatement boundStatement = new BoundStatement(session.prepare(SELECT));
         boundStatement.bind(cinemaName);
         return executeSelect(boundStatement);
@@ -34,8 +34,8 @@ public class TheaterRepository extends GenericRepository<Theater> {
 
     @Override
     public void upsert(Theater theater) {
-        upsert(theater.getNumber_of_rows(), theater.getNumber_of_seats(),
-                theater.getCinema_name(), theater.getTheater_id());
+        upsert(theater.getNumberOfRows(), theater.getNumberOfSeats(),
+                theater.getCinemaName(), theater.getTheaterId());
     }
 
     @Override

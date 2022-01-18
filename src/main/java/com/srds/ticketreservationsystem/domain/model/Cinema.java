@@ -7,11 +7,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Cinema {
-    private String cinema_name;
-    private Integer number_of_theaters;
+    private String cinemaName;
+    private Integer numberOfTheaters;
 
     public Cinema(Row row) {
-        cinema_name = row.getString("cinema_name");
-        number_of_theaters = row.getInt("number_of_theaters");
+        cinemaName = row.getString("cinema_name");
+        numberOfTheaters = row.getInt("number_of_theaters");
     }
 }
