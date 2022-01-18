@@ -4,7 +4,7 @@ CREATE KEYSPACE tickets
    'replication_factor' : 4
   };
 
-CREATE TABLE tickets.reservation(
+CREATE TABLE tickets.client_reservation(
     client_nick text,
     movie_name text,
     reservation_date timestamp,
@@ -15,6 +15,15 @@ CREATE TABLE tickets.reservation(
     price float,
     created_at timestamp,
     PRIMARY KEY ( client_nick, movie_name )
+);
+
+CREATE TABLE tickets.seat_reservation(
+     date timestamp,
+     cinema_name text,
+     theater_id int,
+     row int,
+     seat int,
+     PRIMARY KEY ( date, cinema_name, theater_id )
 );
 
 CREATE TABLE tickets.movie(

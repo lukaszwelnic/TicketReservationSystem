@@ -1,7 +1,7 @@
 package com.srds.ticketreservationsystem.service.handlers;
 
 import com.srds.ticketreservationsystem.config.CassandraConnector;
-import com.srds.ticketreservationsystem.domain.repository.ReservationRepository;
+import com.srds.ticketreservationsystem.domain.repository.ClientReservationRepository;
 import lombok.Getter;
 
 public class LogInHandler extends BaseUIHandler {
@@ -14,7 +14,7 @@ public class LogInHandler extends BaseUIHandler {
         System.out.print("Podaj login: ");
         login = userInput.nextLine();
         setNext(MainMenuHandler.newInstance());
-        new ReservationRepository(new CassandraConnector()).upsert(1, 2, "3");
+        new ClientReservationRepository(new CassandraConnector()).upsert(1, 2, "3");
         super.handle();
     }
 
