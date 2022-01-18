@@ -1,31 +1,39 @@
 package com.srds.ticketreservationsystem.domain.repository;
 
+import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Row;
 import com.srds.ticketreservationsystem.config.CassandraConnector;
 import com.srds.ticketreservationsystem.domain.model.Movie;
+import java.util.List;
 
 public class MovieRepository extends GenericRepository<Movie> {
 
     public MovieRepository(CassandraConnector connector) {
         super(connector);
         FETCH_ALL = "SELECT * FROM MOVIE;";
-        UPSERT = "UPDATE MOVIE SET cinema_name = ?," +
-                "movie_name = ?," +
-                "theater_id = ?," +
-                "date = ?;";
-        DELETE = "DELETE ? FROM MOVIE WHERE cinema_name = ?;";
+        UPSERT = "UPDATE MOVIE SET theater_id = ?," +
+                "date = ?" +
+                "WHERE cinema_name = ? AND movie_name = ?;";
         DELETE_ALL = "TRUNCATE MOVIE;";
+    }
+
+    public List<Movie> select(String cinemaName) {
+        SELECT = "SELECT * FROM MOVIE WHERE cinema_name = ?";
+        BoundStatement boundStatement = new BoundStatement(session.prepare(SELECT));
+        boundStatement.bind(cinemaName);
+        return executeSelect(boundStatement);
+    }
+
+    public List<Movie> select(String cinemaName, String movieName) {
+        SELECT = "SELECT * FROM MOVIE WHERE cinema_name = ? AND movie_name = ?;";
+        BoundStatement boundStatement = new BoundStatement(session.prepare(SELECT));
+        boundStatement.bind(cinemaName, movieName);
+        return executeSelect(boundStatement);
     }
 
     @Override
     public void upsert(Movie movie) {
-        upsert(movie.getCinema_name(), movie.getMovie_name(), movie.getTheater_id(),
-                movie.getDate());
-    }
-
-    @Override
-    public void delete(Movie movie) {
-        delete(movie.getCinema_name(), movie.getMovie_name());
+        upsert(movie.getTheater_id(), movie.getDate(), movie.getCinema_name(), movie.getMovie_name());
     }
 
     @Override
