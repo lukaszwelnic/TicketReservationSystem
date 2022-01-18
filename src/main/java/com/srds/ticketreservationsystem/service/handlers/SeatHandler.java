@@ -1,5 +1,6 @@
 package com.srds.ticketreservationsystem.service.handlers;
 
+import com.srds.ticketreservationsystem.domain.model.Movie;
 import com.srds.ticketreservationsystem.service.dao.ReservationDAO;
 import com.srds.ticketreservationsystem.service.model.Seat;
 
@@ -10,14 +11,15 @@ public class SeatHandler extends BaseUIHandler {
     private static SeatHandler instance;
 
     @Override
-    public synchronized void handle() {
-        List<Seat> seats = new ReservationDAO().availableSeats();
+    public void handle() {
+        ReservationDAO reservationDAO = new ReservationDAO();
+        Movie movie = MovieHandler.newInstance().getMovie();
+        List<Seat> seats = reservationDAO.availableSeats(movie);
         int seatIndex = chooseSeat(seats);
         if (seatIndex > seats.size()) {
             setNext(ExitHandler.newInstance());
         } else {
-            // TODO: zarezerwuj miejsce
-            System.out.println("Siedzenie: " + seats.get(seatIndex - 1).getRow() + "|" + seats.get(seatIndex - 1));
+            reservationDAO.reserveSeat(movie, seats.get(seatIndex - 1));
         }
         setNext(MainMenuHandler.newInstance());
         super.handle();

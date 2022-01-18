@@ -1,11 +1,14 @@
 package com.srds.ticketreservationsystem.domain.repository;
 
+import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Row;
 import com.srds.ticketreservationsystem.config.CassandraConnector;
 import com.srds.ticketreservationsystem.domain.model.Cinema;
 import com.srds.ticketreservationsystem.domain.model.ClientReservation;
 import com.srds.ticketreservationsystem.exception.RepositoryNotInitializedException;
 import lombok.Setter;
+
+import java.util.List;
 
 public class ClientReservationRepository extends GenericRepository<ClientReservation> {
     @Setter
@@ -15,7 +18,6 @@ public class ClientReservationRepository extends GenericRepository<ClientReserva
         super(connector);
         FETCH_ALL = "SELECT * FROM client_reservation;";
         UPSERT = "UPDATE client_reservation SET reservation_date = ?, row = ?, seat = ?, cinema_name = ?, theater_id = ?, price = ?, created_at = ? where client_nick = ? and movie_name = ?;";
-        DELETE = "";
         DELETE_ALL = "TRUNCATE client_reservation;";
     }
 
@@ -28,9 +30,18 @@ public class ClientReservationRepository extends GenericRepository<ClientReserva
                 clientReservation.getMovieName());
     }
 
-    @Override
-    public void delete(ClientReservation clientReservation) {
-//        delete(clientReservation.getId());
+    public List<ClientReservation> select(String clientNick) {
+        SELECT = "SELECT * FROM client_reservation WHERE client_nick = ?;";
+        BoundStatement boundStatement = new BoundStatement(session.prepare(SELECT));
+        boundStatement.bind(clientNick);
+        return executeSelect(boundStatement);
+    }
+
+    public List<ClientReservation> select(String clientNick, String movieName) {
+        SELECT = "SELECT * FROM client_reservation WHERE client_nick = ? AND movie_name = ?;";
+        BoundStatement boundStatement = new BoundStatement(session.prepare(SELECT));
+        boundStatement.bind(clientNick, movieName);
+        return executeSelect(boundStatement);
     }
 
     @Override

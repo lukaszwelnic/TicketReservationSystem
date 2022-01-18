@@ -4,6 +4,9 @@ import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Row;
 import com.srds.ticketreservationsystem.config.CassandraConnector;
 import com.srds.ticketreservationsystem.domain.model.Movie;
+import com.srds.ticketreservationsystem.exception.RepositoryNotInitializedException;
+import lombok.Setter;
+
 import java.util.List;
 
 public class MovieRepository extends GenericRepository<Movie> {

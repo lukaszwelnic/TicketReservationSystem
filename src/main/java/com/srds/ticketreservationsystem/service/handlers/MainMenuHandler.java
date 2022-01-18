@@ -7,7 +7,7 @@ public class MainMenuHandler extends BaseUIHandler {
 
     private MainMenuHandler() {
         options = Arrays.asList("Zarezerwuj film", "Pokaż moje rezerwacje", "Wyjdź");
-        handlers = Arrays.asList(ReservationHandler.newInstance(), ReservationShowerHandler.newInstance(), ExitHandler.newInstance());
+        handlers = Arrays.asList(SelectCinemaHandler.newInstance(), ReservationShowerHandler.newInstance(), ExitHandler.newInstance());
     }
 
     @Override

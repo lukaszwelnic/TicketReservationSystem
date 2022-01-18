@@ -21,9 +21,11 @@ CREATE TABLE tickets.seat_reservation(
      date timestamp,
      cinema_name text,
      theater_id int,
+     client_nick text,
+     movie_name text,
      row int,
      seat int,
-     PRIMARY KEY ( date, cinema_name, theater_id )
+     PRIMARY KEY ( date, cinema_name, theater_id, client_nick, movie_name )
 );
 
 CREATE TABLE tickets.movie(

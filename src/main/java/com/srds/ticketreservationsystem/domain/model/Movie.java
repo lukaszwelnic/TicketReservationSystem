@@ -22,5 +22,4 @@ public class Movie {
         theaterId = row.getInt("theater_id");
         date = row.getTimestamp("date");
     }
-<<<<<<< HEAD
 }
