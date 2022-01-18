@@ -16,12 +16,12 @@ public class ReservationRepository extends GenericRepository<Reservation> {
 
     @Override
     public void upsert(Reservation reservation) {
-        upsert(reservation.getId());
+        upsert(reservation.getClient_nick());
     }
 
     @Override
     public void delete(Reservation reservation) {
-        delete(reservation.getId());
+        delete(reservation.getClient_nick());
     }
 
     @Override
