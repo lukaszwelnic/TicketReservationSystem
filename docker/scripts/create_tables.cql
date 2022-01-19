@@ -1,3 +1,5 @@
+DROP KEYSPACE IF EXISTS tickets;
+
 CREATE KEYSPACE tickets
   WITH REPLICATION = { 
    'class' : 'SimpleStrategy', 

@@ -19,7 +19,7 @@ public class SeatHandler extends BaseUIHandler {
         if (seatIndex > seats.size()) {
             setNext(ExitHandler.newInstance());
         } else {
-            reservationDAO.reserveSeat(movie, seats.get(seatIndex - 1));
+            reservationDAO.reserveSeat(movie, seats.get(seatIndex - 1), LogInHandler.newInstance().getLogin());
         }
         setNext(MainMenuHandler.newInstance());
         super.handle();

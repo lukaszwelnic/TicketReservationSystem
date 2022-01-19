@@ -2,70 +2,86 @@ package com.srds.ticketreservationsystem;
 
 import com.srds.ticketreservationsystem.config.CassandraConnector;
 import com.srds.ticketreservationsystem.domain.model.ClientReservation;
-import com.srds.ticketreservationsystem.domain.repository.MovieRepository;
-import com.srds.ticketreservationsystem.domain.repository.ClientReservationRepository;
-import org.junit.jupiter.api.BeforeEach;
+import com.srds.ticketreservationsystem.domain.model.Movie;
+import com.srds.ticketreservationsystem.domain.model.SeatReservation;
+import com.srds.ticketreservationsystem.domain.model.Theater;
+import com.srds.ticketreservationsystem.domain.repository.*;
+import com.srds.ticketreservationsystem.service.dao.ReservationDAO;
+import com.srds.ticketreservationsystem.service.model.Seat;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 class StressTest {
     private final List<Thread> threads = new ArrayList<>();
-    private final int THREADS_NUM = 1000;
-    private final int RESERVATIONS_PER_USER = 1000;
+    private final int THREADS_NUM = 500;
 
-    private final ClientReservationRepository clientReservationRepository;
-    private final MovieRepository movieRepository;
+    private static final CassandraConnector cassandraConnector;
+    private static final ReservationDAO reservationDAO;
 
-    public StressTest() {
-        CassandraConnector connector = new CassandraConnector();
-        this.clientReservationRepository = new ClientReservationRepository(connector);
-        this.movieRepository = new MovieRepository(connector);
+    static {
+        cassandraConnector = new CassandraConnector();
+        CinemaRepository.setInstance(new CinemaRepository(cassandraConnector));
+        ClientReservationRepository.setInstance(new ClientReservationRepository(cassandraConnector));
+        MovieRepository.setInstance(new MovieRepository(cassandraConnector));
+        SeatReservationRepository.setInstance(new SeatReservationRepository(cassandraConnector));
+        TheaterRepository.setInstance(new TheaterRepository(cassandraConnector));
+        reservationDAO = new ReservationDAO();
     }
 
-    @BeforeEach
-    public void setUp() {
-        // TODO: delete all reservations
-        clientReservationRepository.deleteAll();
+    @BeforeAll
+    static void beforeAll() {
+        ClientReservationRepository.getInstance().deleteAll();
+        SeatReservationRepository.getInstance().deleteAll();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        cassandraConnector.close();
     }
 
     @Test
     public void performanceTest() throws InterruptedException {
-        clientReservationRepository.upsert(new ClientReservation("TESTOWY_NICK", "Scary movie", Date.from(Instant.now()), 1, 1, "Kino", 1, 1.2f, Date.from(Instant.now())));
-//        for (int i = 0; i < THREADS_NUM; i++) {
-//            Thread thread = new Thread(new RunnableThread("Testowy" + i));
-//            threads.add(thread);
-//            thread.start();
-//        }
-//        for (Thread thread : threads) {
-//            thread.join();
-//        }
+        for (int i = 0; i < THREADS_NUM; i++) {
+            Thread thread = new Thread(new RunnableThread("Testowy" + i));
+            threads.add(thread);
+            thread.start();
+        }
+        for (Thread thread : threads) {
+            thread.join();
+        }
+        // TODO: check how many same seats
+        System.out.println("False reservations: " + falseReservations() + "/" + THREADS_NUM);
     }
 
-    private class RunnableThread implements Runnable {
+    private static class RunnableThread implements Runnable {
         private final String nick;
-        private final List<String> movies = new ArrayList<>();
 
         public RunnableThread(String nick) {
             this.nick = nick;
         }
 
+        @SneakyThrows
         @Override
         public void run() {
-            for (int i = 0; i < RESERVATIONS_PER_USER; i++) {
-
-                // TODO: reserve movie
-                movies.add(""); // TODO: add movie to list of reserved
-            }
-            int stats = 0;
-            for (String movie : movies) {
-                // TODO: Check if that movie is in database with nick
-                // TODO: if yes then stats++
-            }
+            Random random = new Random();
+            List<Movie> movies = MovieRepository.getInstance().fetchAll();
+            Movie movie = movies.get(random.nextInt(movies.size()));
+            List<Seat> seats = reservationDAO.availableSeats(movie);
+            Seat seat = seats.get(random.nextInt(seats.size()));
+            reservationDAO.reserveSeat(movie, seat, nick);
         }
+    }
+
+    private long falseReservations() {
+        List<SeatReservation> seatReservations = SeatReservationRepository.getInstance().fetchAll();
+        return seatReservations.stream().filter(seatReservation1 -> seatReservations.stream().filter(seatReservation1::equals).count() > 1).count();
     }
 
 }

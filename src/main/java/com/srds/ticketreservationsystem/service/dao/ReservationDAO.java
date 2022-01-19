@@ -37,16 +37,16 @@ public class ReservationDAO {
         return seats;
     }
 
-    public synchronized void reserveSeat(Movie movie, Seat seat) {
+    public synchronized void reserveSeat(Movie movie, Seat seat, String login) {
         SeatReservationRepository.getInstance()
                 .upsert(new SeatReservation(
                         movie.getDate(), movie.getCinemaName(),
-                        movie.getTheaterId(), LogInHandler.newInstance().getLogin(),
+                        movie.getTheaterId(), login,
                         movie.getMovieName(), seat.getRow(), seat.getSeat()));
         ClientReservationRepository.getInstance()
-                .upsert(new ClientReservation(LogInHandler.newInstance().getLogin(),
-                        movie.getMovieName(), movie.getDate(), seat.getRow(),
-                        seat.getSeat(), movie.getCinemaName(), movie.getTheaterId(),
+                .upsert(new ClientReservation(login, movie.getMovieName(),
+                        movie.getDate(), seat.getRow(), seat.getSeat(),
+                        movie.getCinemaName(), movie.getTheaterId(),
                         1.0f, Date.from(Instant.now())));
     }
 

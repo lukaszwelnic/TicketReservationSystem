@@ -29,4 +29,18 @@ public class SeatReservation {
         this.row = row.getInt("row");
         this.seat = row.getInt("seat");
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof SeatReservation){
+            SeatReservation seatReservation = (SeatReservation) obj;
+            return seatReservation.cinemaName.equals(this.cinemaName) &&
+                    seatReservation.date.equals(this.date) &&
+                    seatReservation.theaterId.equals(this.theaterId) &&
+                    seatReservation.movieName.equals(this.movieName) &&
+                    seatReservation.row.equals(this.row) &&
+                    seatReservation.seat.equals(this.seat);
+        }
+        return false;
+    }
 }
