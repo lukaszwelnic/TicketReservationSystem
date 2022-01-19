@@ -6,15 +6,15 @@ INSERT INTO tickets.cinema (cinema_name, number_of_theaters)
 VALUES ('Multikino Malta', 1);
 
 INSERT INTO tickets.theater (cinema_name, theater_id, number_of_rows, number_of_seats)
-VALUES ('Multikino 51', 1, 12, 10);
+VALUES ('Multikino 51', 1, 10, 10);
 INSERT INTO tickets.theater (cinema_name, theater_id, number_of_rows, number_of_seats)
-VALUES ('Multikino 51', 2, 10, 8);
+VALUES ('Multikino 51', 2, 5, 8);
 INSERT INTO tickets.theater (cinema_name, theater_id, number_of_rows, number_of_seats)
-VALUES ('Multikino Stary Browar', 1, 12, 10);
+VALUES ('Multikino Stary Browar', 1, 6, 8);
 INSERT INTO tickets.theater (cinema_name, theater_id, number_of_rows, number_of_seats)
-VALUES ('Multikino Stary Browar', 2, 12, 12);
+VALUES ('Multikino Stary Browar', 2, 8, 5);
 INSERT INTO tickets.theater (cinema_name, theater_id, number_of_rows, number_of_seats)
-VALUES ('Multikino Malta', 1, 10, 11);
+VALUES ('Multikino Malta', 1, 7, 5);
 
 INSERT INTO tickets.movie (cinema_name, movie_name, date, theater_id)
 VALUES ('Multikino 51', 'Spider-Man', '2022-02-16 13:30:00', 1);

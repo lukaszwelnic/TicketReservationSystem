@@ -3,7 +3,7 @@ DROP KEYSPACE IF EXISTS tickets;
 CREATE KEYSPACE tickets
   WITH REPLICATION = { 
    'class' : 'SimpleStrategy', 
-   'replication_factor' : 4
+   'replication_factor' : 3
   };
 
 CREATE TABLE tickets.client_reservation(
